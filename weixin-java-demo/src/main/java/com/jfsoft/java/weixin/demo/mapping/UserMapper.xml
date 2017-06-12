@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jfsoft.java.weixin.demo.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.jfsoft.java.weixin.demo.model.User">
+    <result column="subscribe" jdbcType="BIT" property="subscribe" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="nickname" jdbcType="NVARCHAR" property="nickname" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="city" jdbcType="NVARCHAR" property="city" />
+    <result column="province" jdbcType="NVARCHAR" property="province" />
+  </resultMap>
+  <insert id="insert" parameterType="com.jfsoft.java.weixin.demo.model.User">
+    insert into userinfo (subscribe, openid, nickname, 
+      sex, city, province
+      )
+    values (#{subscribe,jdbcType=BIT}, #{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=NVARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{city,jdbcType=NVARCHAR}, #{province,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jfsoft.java.weixin.demo.model.User">
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="subscribe != null">
+        subscribe,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="subscribe != null">
+        #{subscribe,jdbcType=BIT},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=NVARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=NVARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectUserByOpendID" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from userinfo where openid=#{openID,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateSubState" parameterType="java.lang.String">
+    UPDATE userinfo set subscribe = '0' WHERE  openid = #{openId}
+  </update>
+</mapper>
